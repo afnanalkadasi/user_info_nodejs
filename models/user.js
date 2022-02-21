@@ -1,42 +1,45 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const user_schema = new Schema({
-    full_name:{
-        type:String,
-        required: true,
-        unique:true,
-    },
-    user_name:{
-        type:String,
-        required: true,
-        unique:true,
-    },
-    age:{
-        type:Number,
-        required: true,
-    },
-    email:{
-        type:String,
-        required: true,
-        unique:true,
-    }, 
-    address:{
-        type:String,
-        required: true,
-        unique:true,
-    },
-    image:{
-        type:String,
-        required: true,
-        unique:true,
-    },
-    user_cv:{
-        type:String,
-        required: true,
-        unique:true,
-    }
+const DB = 'mongodb://127.0.0.1:27017/User_info';
+
+mongoose
+  .connect(DB, {
+    autoIndex: true,
+  })
+  .then(() => {
+    console.log('DB connected :)');
+  });
+
+const fileSchema = new mongoose.Schema({
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  full_name: {
+    type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  user_image: {
+    type: String,
+    required: true,
+  },
+  cv_file: {
+    type: String,
+    required: true,
+  },
 });
 
-const user = mongoose.model("user", user_schema);
-module.exports = user;
+const User = mongoose.model('User_info', fileSchema);
+
+module.exports = User;

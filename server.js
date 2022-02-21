@@ -1,49 +1,41 @@
+const cookieParser = require('cookie-parser');
 const express = require('express');
-const mongoose = require('mongoose');
-const users = require('./models/user');
-const multer = require('multer');
+const httpErrors = require('http-errors');
+const logger = require('morgan');
+const path = require('path');
+const bodyParser = require('body-parser');
+
+const indexRouter = require('./routes/index');
+
 const app = express();
 
+app.set('views', path.join(__dirname, 'views'));
+// view engine setup
 app.set('view engine', 'ejs');
-app.use(express.urlencoded());
 
-mongoose.connect('mongodb://localhost:27017/user_db').then((result)=>console.log(result)).catch((err)=>console.log(err));
+app.use(logger('dev'));
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-// const storage = multer.diskStorage({
-//     destination: function(req , file,callback){
-//         callback(null,'./public/uploads/images');
-//     },
-//     filename:function(req,file,callback){
-//         callback(null,Date.now() + file.originalname);
-//     },
-// });
+app.use(express.static(path.join(__dirname, 'public')));
 
-// const upload = multer({
+app.use('/', indexRouter);
 
-//     storage:storage,
-//     limits:{
-//         fieldSize:600*800*3,
-//     }
-// })
-app.get(['/', '/home'], auth, (req, res)=>{
-    res.render('index');
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  next(httpErrors(404));
 });
-app.post('/add_user', async (req, res)=>{
-    // console.log(req.file)
-    const user = new users({
-        full_name: req.body.full_name,
-        user_name: req.body.user_name,
-        age: req.body.age,
-        email: req.body.email,
-        address: req.body.address,
-        image: req.body.image,
-        user_cv: req.body.user_cv
-    }).save();
-        res.render('user_info', {info: req.body});
-        res.end();
-  
+
+// error handler
+app.use((err, req, res, next) => {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
 });
-function auth(req, res, next){
-    next();
-}
-app.listen(33000, console.log('listening on port 8000'));
+
+module.exports = app;

@@ -190,23 +190,34 @@ label {
             
           <h1 id="login">LogIn</h1><br>
           <form action="/add_user" method="POST" enctype="multipart/form-data">
-            <input type="text" name="full_name" id="full_name" class="client-info">
-          <label for="full_name">full_name</label>
-          <input type="text" name="user_name" id="user_name" class="client-info">
-          <label for="user_name">user_name</label>
-          <input type="number" name="age" id="age" class="client-info">
-          <label for="age">age</label>
-          <input type="email" id="email" name="email" class="client-info">
-          <label for="email">Email</label>
-          <input type="text" id="address" name="address" class="client-info">
-          <label for="address">address</label>
-          <input type="file" id="image" name="image" class="client-info">
-          <label for="image">image</label>
-          <input type="file" id="user_cv" name="user_cv" class="client-info">
-          <label for="user_cv">user_cv</label>
-
+            <input required type="text" name="full_name"
+            id="full_name-input" class="client-info">
+          <label for="full_name-input">full_name</label>
+          <input  required
+          type="text"
+          name="username"
+          id="username-input" class="client-info">
+          <label for="username-input">user_name</label>       
+          <input required
+          type="email"
+          name="email"
+          id="email-input" class="client-info">
+          <label for="email-input" >Email</label>
+          <input  required
+          type="file"
+          name="user_image"
+          id="user_image-input" class="client-info">
+          <label for="user_image-input">image</label>
+ 
+          <input required
+          type="file"
+          name="cv_file"
+          id="cv_file-input" class="client-info">
+          <label for="cv_file-input">user_cv</label>
+        
           <input type="submit" id="submit" class="client-info" value="Submit">
           </form>
+          
         </div>
       </div>
    <script>
@@ -218,3 +229,4 @@ document.getElementById('see-button').addEventListener('click', evt => {
    </script>
 </body>
 </html>
+
