@@ -38,15 +38,10 @@ app.post('/add_user', async (req, res)=>{
         address: req.body.address,
         image: req.body.image,
         user_cv: req.body.user_cv
-    })
-    try{
-        user = await user.save();
+    }).save();
         res.render('user_info', {info: req.body});
         res.end();
-    }
-   catch{
-       console.log("err");
-   }
+  
 });
 function auth(req, res, next){
     next();
